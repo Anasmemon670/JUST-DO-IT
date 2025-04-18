@@ -29,52 +29,156 @@ function addTodo() {
     li.style.margin = "5px 0";
     li.style.border = "none";
     li.style.borderRadius = "20px";
-    li.style.columnGap = "10px";
+    li.style.columnGap = "7px";
 
     let span = document.createElement("span");
     span.textContent = userText;
 
+    let buttonContainer = document.createElement("div");
+    buttonContainer.style.display = "flex";
+    buttonContainer.style.gap = "8px";
+
     let deleteBtn = document.createElement("button");
     deleteBtn.innerHTML = `<i class="fa-solid fa-trash"></i>`;
-    deleteBtn.className = "delete-btn";
-    deleteBtn.style.border = "none";
-    deleteBtn.style.background = "#f8d7da";
-    deleteBtn.style.cursor = "pointer";
-    deleteBtn.style.width = "35px";
-    deleteBtn.style.height = "35px";
-    deleteBtn.style.borderRadius = "50%";
-    deleteBtn.style.display = "flex";
-    deleteBtn.style.justifyContent = "end";
-    deleteBtn.style.alignItems = "center";
+    Object.assign(deleteBtn.style, {
+      border: "none",
+      background: "#f8d7da",
+      cursor: "pointer",
+      width: "35px",
+      height: "35px",
+      borderRadius: "50%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
+    });
 
     let EditBtn = document.createElement("button");
     EditBtn.innerHTML = `<i class="fa-solid fa-pen-to-square"></i>`;
-    EditBtn.className = "Edit-btn";
-    EditBtn.style.border = "none";
-    EditBtn.style.background = "#f8d7da";
-    EditBtn.style.cursor = "pointer";
-    EditBtn.style.width = "35px";
-    EditBtn.style.height = "35px";
-    EditBtn.style.borderRadius = "50%";
-    EditBtn.style.display = "flex";
-    EditBtn.style.justifyContent = "end";
-    EditBtn.style.alignItems = "center";
+    Object.assign(EditBtn.style, {
+      border: "none",
+      background: "#f8d7da",
+      cursor: "pointer",
+      width: "35px",
+      height: "35px",
+      borderRadius: "50%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
+    });
 
     deleteBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       li.remove();
     });
 
-    // EditBtn.addEventListener("click", (e) => {
-    //   e.stopPropagation();
-    //   li.edit();
-    // });
+    EditBtn.addEventListener("click", () => {
+      span.style.display = "none";
+
+      let EditInput = document.createElement("input");
+      EditInput.type = "text";
+      EditInput.value = span.textContent;
+      Object.assign(EditInput.style, {
+        flex: "1",
+        padding: "5px",
+        marginRight: "5px",
+        border: "none",
+        outline: "none",
+        borderRadius: "10px"
+      });
+
+      let SaveBtn = document.createElement("button");
+      SaveBtn.textContent = "Save";
+      Object.assign(SaveBtn.style, {
+        border: "none",
+        background: "#F7D2Ef",
+        // padding: "6px 10px",
+        width: "58px",
+        height: "32px",
+        fontSize: "13px",
+        fontFamily: "font-family: Arial, Helvetica, sans-serif",
+        textAlign: "center",
+        cursor: "pointer",
+        borderRadius: "15px"
+      });
+
+      SaveBtn.addEventListener("mouseover", () => {
+        SaveBtn.style.background = "#FFFFFF";
+      });
+      
+      SaveBtn.addEventListener("mouseout", () => {
+        SaveBtn.style.background = "#F7D2Ef";
+      });
+
+      let CancleBtn = document.createElement("button");
+      CancleBtn.textContent = "Cancel";
+      Object.assign(CancleBtn.style, {
+        // padding: "6px 10px",
+        width: "58px",
+        height: "32px",
+        fontSize: "13px",
+        fontFamily: "font-family: Arial, Helvetica, sans-serif",
+        textAlign: "center",
+        border: "none",
+        cursor: "pointer",
+        background: "#F7D2Ef",
+        borderRadius: "15px"
+      });
+
+      CancleBtn.addEventListener("mouseover", () => {
+        CancleBtn.style.background = "#FFFFFF";
+      });
+      
+      CancleBtn.addEventListener("mouseout", () => {
+        CancleBtn.style.background = "#F7D2Ef";
+      });
+
+      EditBtn.style.display = "none";
+      deleteBtn.style.display = "none";
+
+      li.insertBefore(EditInput, span);
+      li.insertBefore(SaveBtn, buttonContainer);
+      li.insertBefore(CancleBtn, buttonContainer);
+
+      function Save() {
+        let newtext = EditInput.value.trim();
+        if (newtext !== "") {
+          span.textContent = newtext;
+        }
+        Cancle();
+      }
+
+      function Cancle() {
+        EditInput.remove();
+        SaveBtn.remove();
+        CancleBtn.remove();
+        span.style.display = "inline";
+        EditBtn.style.display = "flex";
+        deleteBtn.style.display = "flex";
+      }
+
+      SaveBtn.addEventListener("click", Save);
+      CancleBtn.addEventListener("click", Cancle);
+
+      EditInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          Save();
+        } else if (e.key === "Escape") {
+          Cancle();
+        }
+      });
+
+      EditInput.focus();
+    });
+
+    buttonContainer.appendChild(EditBtn);
+    buttonContainer.appendChild(deleteBtn);
 
     li.appendChild(span);
-    li.append(EditBtn);
-    li.appendChild(deleteBtn);
+    li.appendChild(buttonContainer);
     ul.appendChild(li);
     input.value = "";
   }
 }
+
+
 
