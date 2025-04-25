@@ -1,12 +1,11 @@
 let input = document.getElementById("UserInput");
 let UserButton = document.querySelector(".button1");
 let ul = document.querySelector("ul");
-
-ul.addEventListener('click', (e) => {
-  if (e.target.tagName === "LI") {
-    e.target.style.textDecoration = "line-through";
-  }
-});
+let searchInput = document.getElementById("SearchInput");
+let searchToggle = document.querySelector(".search-toggle");
+let searchBar = document.querySelector(".search-bar");
+let form = document.querySelector(".form");
+let backButton = document.querySelector(".back-button");
 
 UserButton.addEventListener("click", () => {
   addTodo();
@@ -18,6 +17,33 @@ input.addEventListener("keydown", (e) => {
   }
 });
 
+searchToggle.addEventListener("click", () => {
+  searchBar.style.display = "flex";
+  form.style.display = "none";
+  searchToggle.style.display = "none";
+  searchInput.focus();
+});
+
+backButton.addEventListener("click", () => {
+  searchBar.style.display = "none";
+  form.style.display = "flex";
+  searchToggle.style.display = "block";
+  searchInput.value = "";
+  let tasks = ul.querySelectorAll("li");
+  tasks.forEach(task => {
+    task.style.display = "flex";
+  });
+});
+
+searchInput.addEventListener("input", () => {
+  let filter = searchInput.value.toLowerCase();
+  let tasks = ul.querySelectorAll("li");
+  tasks.forEach(task => {
+    let text = task.querySelector("span").textContent.toLowerCase();
+    task.style.display = text.includes(filter) ? "flex" : "none";
+  });
+});
+
 function addTodo() {
   let userText = input.value.trim();
   if (userText !== "") {
@@ -27,7 +53,6 @@ function addTodo() {
     li.style.alignItems = "center";
     li.style.padding = "8px 12px";
     li.style.margin = "5px 0";
-    li.style.border = "none";
     li.style.borderRadius = "20px";
     li.style.columnGap = "7px";
 
@@ -77,6 +102,7 @@ function addTodo() {
       let EditInput = document.createElement("input");
       EditInput.type = "text";
       EditInput.value = span.textContent;
+
       Object.assign(EditInput.style, {
         flex: "1",
         padding: "5px",
@@ -89,65 +115,34 @@ function addTodo() {
       let SaveBtn = document.createElement("button");
       SaveBtn.textContent = "Save";
       Object.assign(SaveBtn.style, {
-        border: "none",
-        background: "#F7D2Ef",
-        // padding: "6px 10px",
         width: "58px",
         height: "32px",
         fontSize: "13px",
-        fontFamily: "font-family: Arial, Helvetica, sans-serif",
-        textAlign: "center",
-        cursor: "pointer",
+        background: "#F7D2Ef",
         borderRadius: "15px"
       });
 
-      SaveBtn.addEventListener("mouseover", () => {
-        SaveBtn.style.background = "#FFFFFF";
-      });
-      
-      SaveBtn.addEventListener("mouseout", () => {
-        SaveBtn.style.background = "#F7D2Ef";
+      SaveBtn.addEventListener("click", () => {
+        let newtext = EditInput.value.trim();
+        if (newtext !== "") {
+          span.textContent = newtext;
+        }
+        cancelEdit();
       });
 
       let CancleBtn = document.createElement("button");
       CancleBtn.textContent = "Cancel";
       Object.assign(CancleBtn.style, {
-        // padding: "6px 10px",
         width: "58px",
         height: "32px",
         fontSize: "13px",
-        fontFamily: "font-family: Arial, Helvetica, sans-serif",
-        textAlign: "center",
-        border: "none",
-        cursor: "pointer",
         background: "#F7D2Ef",
         borderRadius: "15px"
       });
 
-      CancleBtn.addEventListener("mouseover", () => {
-        CancleBtn.style.background = "#FFFFFF";
-      });
-      
-      CancleBtn.addEventListener("mouseout", () => {
-        CancleBtn.style.background = "#F7D2Ef";
-      });
+      CancleBtn.addEventListener("click", cancelEdit);
 
-      EditBtn.style.display = "none";
-      deleteBtn.style.display = "none";
-
-      li.insertBefore(EditInput, span);
-      li.insertBefore(SaveBtn, buttonContainer);
-      li.insertBefore(CancleBtn, buttonContainer);
-
-      function Save() {
-        let newtext = EditInput.value.trim();
-        if (newtext !== "") {
-          span.textContent = newtext;
-        }
-        Cancle();
-      }
-
-      function Cancle() {
+      function cancelEdit() {
         EditInput.remove();
         SaveBtn.remove();
         CancleBtn.remove();
@@ -156,16 +151,12 @@ function addTodo() {
         deleteBtn.style.display = "flex";
       }
 
-      SaveBtn.addEventListener("click", Save);
-      CancleBtn.addEventListener("click", Cancle);
+      EditBtn.style.display = "none";
+      deleteBtn.style.display = "none";
 
-      EditInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          Save();
-        } else if (e.key === "Escape") {
-          Cancle();
-        }
-      });
+      li.insertBefore(EditInput, span);
+      li.insertBefore(SaveBtn, buttonContainer);
+      li.insertBefore(CancleBtn, buttonContainer);
 
       EditInput.focus();
     });
@@ -180,5 +171,25 @@ function addTodo() {
   }
 }
 
+let grayColor = document.querySelector('.gray-theme');
+let whiteColor = document.querySelector('.white-theme');
+let blackColor = document.querySelector('.black-theme');
+let body = document.querySelector('body');
+let h2 = document.querySelector("h2");
+
+grayColor.addEventListener("click", () => {
+  body.style.backgroundImage = "linear-gradient(100deg, #575656, #062e3f)";
+  h2.style.color = "white";
+});
+
+whiteColor.addEventListener("click", () => {
+  body.style.backgroundImage = "linear-gradient(100deg, #d4f1ff, #ffffff)";
+  h2.style.color = "darkslategray";
+});
+
+blackColor.addEventListener("click", () => {
+  body.style.backgroundImage = "linear-gradient(100deg, #001214, #001f29)";
+  h2.style.color = "white";
+});
 
 
