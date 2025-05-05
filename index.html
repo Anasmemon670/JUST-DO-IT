@@ -4,39 +4,42 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-hc1l1J+9jG82+KsOBoJimn3qZr2H5sF7uEwkW6QeDPf1TmdnP4T29kS1vJgRT1zCXU3IJ3iN0h6ws8Q76eI9qPQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
     <title>JUST DO IT</title>
 </head>
 
 <body>
+
     <div class="buttons">
-        <button class="gray-theme theme-selector"></button>
-        <button class="white-theme theme-selector"></button>
-        <button class="black-theme theme-selector"></button>
+        <button class="gray-theme theme-selector" aria-label="Gray theme"></button>
+        <button class="white-theme theme-selector" aria-label="White theme"></button>
+        <button class="black-theme theme-selector" aria-label="Black theme"></button>
     </div>
-
     <div class="container">
-        <h2>Just do it.</h2>
+        <h1>Just do it.</h1>
         <div class="form">
-            <input type="text" id="UserInput" placeholder="Add a task.">
-            <button class="button1">I Got This!</button>
+            <label for="UserInput" class="visually-hidden">Add a task</label>
+            <input type="text" id="UserInput" placeholder="Add a task..." aria-label="Add a task" />
+            <button class="button1" aria-label="Add task">I Got This!</button>
         </div>
-        <p>Date: 4/18/2025 Time: 6:35 PM</p>
 
-        <button class="search-toggle">Search Tasks</button>
+        <button class="search-button" aria-label="Search tasks">Search Tasks</button>
 
         <div class="search-bar">
             <div class="search-form">
-                <input type="text" id="SearchInput" placeholder="Search tasks...">
-                <button class="back-button">Back</button>
+                <label for="SearchInput" class="visually-hidden">Search tasks</label>
+                <input type="text" id="SearchInput" placeholder="Search tasks..." aria-label="Search tasks" />
+                <button class="back-button" aria-label="Back to task input">Back</button>
             </div>
         </div>
 
-
         <div class="todo-list">
             <div class="todo">
-                <ul></ul>
+                <ul aria-label="Task list"></ul>
             </div>
         </div>
     </div>
